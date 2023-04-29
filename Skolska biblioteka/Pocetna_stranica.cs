@@ -65,5 +65,17 @@ namespace Skolska_biblioteka
             Autori_i__knjige f1 = new Autori_i__knjige();
             f1.ShowDialog();
         }
+
+        private void primerciToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Primerci f1 = new Primerci();
+            f1.ShowDialog();
+        }
+
+        private void slobodneKnjigeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Slobodne_knjige f1 = new Slobodne_knjige();
+            f1.ShowDialog();
+        }
     }
 }

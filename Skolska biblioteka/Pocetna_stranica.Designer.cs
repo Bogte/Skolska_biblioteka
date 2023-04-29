@@ -124,6 +124,7 @@
             this.primerciToolStripMenuItem.Name = "primerciToolStripMenuItem";
             this.primerciToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
             this.primerciToolStripMenuItem.Text = "Primerci";
+            this.primerciToolStripMenuItem.Click += new System.EventHandler(this.primerciToolStripMenuItem_Click);
             // 
             // pozajmiceToolStripMenuItem
             // 
@@ -136,6 +137,7 @@
             this.slobodneKnjigeToolStripMenuItem.Name = "slobodneKnjigeToolStripMenuItem";
             this.slobodneKnjigeToolStripMenuItem.Size = new System.Drawing.Size(104, 20);
             this.slobodneKnjigeToolStripMenuItem.Text = "Slobodne knjige";
+            this.slobodneKnjigeToolStripMenuItem.Click += new System.EventHandler(this.slobodneKnjigeToolStripMenuItem_Click);
             // 
             // Pocetna_stranica
             // 
