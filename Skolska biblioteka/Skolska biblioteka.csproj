@@ -47,6 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Autori i  knjige.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Autori i  knjige.Designer.cs">
+      <DependentUpon>Autori i  knjige.cs</DependentUpon>
+    </Compile>
     <Compile Include="Autori.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,6 +70,12 @@
     </Compile>
     <Compile Include="Izdavaci.Designer.cs">
       <DependentUpon>Izdavaci.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Knjige.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Knjige.Designer.cs">
+      <DependentUpon>Knjige.cs</DependentUpon>
     </Compile>
     <Compile Include="Knjizeva_vrsta.cs">
       <SubType>Form</SubType>
@@ -92,6 +104,9 @@
     <Compile Include="Zaposleni.Designer.cs">
       <DependentUpon>Zaposleni.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Autori i  knjige.resx">
+      <DependentUpon>Autori i  knjige.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Autori.resx">
       <DependentUpon>Autori.cs</DependentUpon>
     </EmbeddedResource>
@@ -100,6 +115,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Izdavaci.resx">
       <DependentUpon>Izdavaci.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Knjige.resx">
+      <DependentUpon>Knjige.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Knjizeva_vrsta.resx">
       <DependentUpon>Knjizeva_vrsta.cs</DependentUpon>

@@ -59,5 +59,11 @@ namespace Skolska_biblioteka
             Knjige f1 = new Knjige();
             f1.ShowDialog();
         }
+
+        private void autoriKnjigaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Autori_i__knjige f1 = new Autori_i__knjige();
+            f1.ShowDialog();
+        }
     }
 }

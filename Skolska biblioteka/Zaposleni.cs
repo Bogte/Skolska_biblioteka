@@ -28,11 +28,9 @@ namespace Skolska_biblioteka
 
         private void Osvezi()
         {
-            {
-                podaci = new DataTable();
-                podaci = Konekcija.Unos("SELECT id, ime + ' ' + prezime AS 'Zaposleni', convert(varchar(10), datum_zaposlenja) AS 'Datum zaposlenja', JMBG, email, plata, Lozinka FROM Zaposleni");
-                dataGridView1.DataSource = podaci;
-            }
+            podaci = new DataTable();
+            podaci = Konekcija.Unos("SELECT id, ime + ' ' + prezime AS 'Zaposleni', convert(varchar(10), datum_zaposlenja) AS 'Datum zaposlenja', JMBG, email, plata, Lozinka FROM Zaposleni");
+            dataGridView1.DataSource = podaci;
         }
 
         private void button1_Click(object sender, EventArgs e)

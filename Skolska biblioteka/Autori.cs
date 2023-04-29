@@ -30,11 +30,9 @@ namespace Skolska_biblioteka
 
         private void Osvezi()
         {
-            {
-                podaci = new DataTable();
-                podaci = Konekcija.Unos("SELECT id, ime + ' ' + prezime AS 'Autor', godina_rodjenja AS 'Godina rodjenja', drzava_porekla AS 'Drzava porekla' FROM Autor");
-                dataGridView1.DataSource = podaci;
-            }
+            podaci = new DataTable();
+            podaci = Konekcija.Unos("SELECT id, ime + ' ' + prezime AS 'Autor', godina_rodjenja AS 'Godina rodjenja', drzava_porekla AS 'Drzava porekla' FROM Autor");
+            dataGridView1.DataSource = podaci;
         }
 
         private void dataGridView1_CurrentCellChanged(object sender, EventArgs e)
