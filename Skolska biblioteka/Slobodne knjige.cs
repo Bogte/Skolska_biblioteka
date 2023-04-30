@@ -23,12 +23,30 @@ namespace Skolska_biblioteka
         private void Slobodne_knjige_Load(object sender, EventArgs e)
         {
             podaci = new DataTable();//Dodavanje knjizevnih vrsta
-            podaci = Konekcija.Unos("SELECT DISTINCT Naziv AS 'Vrsta' FROM Knjizevna_vrsta");
+            podaci = Konekcija.Unos("SELECT DISTINCT Knjizevna_vrsta.naziv AS 'Vrsta' FROM Primerak JOIN Knjiga ON Knjiga.id = Primerak.id_knjige JOIN Knjizevna_vrsta ON Knjizevna_vrsta.id = Knjiga.id_vrste");
             string[] pomocna = new string[podaci.Rows.Count];
             for (int i = 0; i < podaci.Rows.Count; i++)
             {
                 pomocna[i] = Convert.ToString(podaci.Rows[i]["Vrsta"]);
                 comboBox1.Items.Add(pomocna[i]);
+            }
+
+            podaci = new DataTable();//Dodavanje knjiga
+            podaci = Konekcija.Unos("SELECT DISTINCT Knjiga.naziv AS 'Knjiga' FROM Primerak JOIN Knjiga ON Knjiga.id = Primerak.id_knjige");
+            pomocna = new string[podaci.Rows.Count];
+            for (int i = 0; i < podaci.Rows.Count; i++)
+            {
+                pomocna[i] = Convert.ToString(podaci.Rows[i]["Knjiga"]);
+                comboBox2.Items.Add(pomocna[i]);
+            }
+
+            podaci = new DataTable();//Dodavanje autora
+            podaci = Konekcija.Unos("SELECT DISTINCT Autor.ime + ' ' + Autor.prezime AS 'Autor' FROM Primerak JOIN Knjiga ON Knjiga.id = Primerak.id_knjige JOIN Autor ON Autor.id = Knjiga.id_autora");
+            pomocna = new string[podaci.Rows.Count];
+            for (int i = 0; i < podaci.Rows.Count; i++)
+            {
+                pomocna[i] = Convert.ToString(podaci.Rows[i]["Autor"]);
+                comboBox3.Items.Add(pomocna[i]);
             }
 
             Osvezi();
@@ -68,6 +86,22 @@ namespace Skolska_biblioteka
         private void button2_Click(object sender, EventArgs e)
         {
             Osvezi();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            podaci = new DataTable();
+            podaci = Konekcija.Unos("exec fn_slobodne_knjige_po_nazivu '" + comboBox2.Text + "'");
+            dataGridView1.DataSource = podaci;
+            button2.Enabled = true;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            podaci = new DataTable();
+            podaci = Konekcija.Unos("exec prikazi_slobodne_knjige_po_autoru '" + comboBox3.Text + "'");
+            dataGridView1.DataSource = podaci;
+            button2.Enabled = true;
         }
     }
 }

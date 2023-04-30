@@ -33,11 +33,11 @@ namespace Skolska_biblioteka
             }
 
             podaci = new DataTable();//Dodavanje knjiga
-            podaci = Konekcija.Unos("SELECT DISTINCT naziv AS 'Knjiga' FROM Knjiga");
+            podaci = Konekcija.Unos("SELECT DISTINCT Knjiga.naziv AS 'Primerak' FROM Primerak JOIN Knjiga On Knjiga.id = Primerak.id_knjige");
             pomocna = new string[podaci.Rows.Count];
             for (int i = 0; i < podaci.Rows.Count; i++)
             {
-                pomocna[i] = Convert.ToString(podaci.Rows[i]["Knjiga"]);
+                pomocna[i] = Convert.ToString(podaci.Rows[i]["Primerak"]);
                 comboBox2.Items.Add(pomocna[i]);
             }
 
@@ -133,6 +133,57 @@ namespace Skolska_biblioteka
             }
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("Da li ste sigurni da zelite da dodate ove podatke?", "Skolska biblioteka", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    if (textBox2.Text == "" || comboBox1.Text == "" || comboBox2.Text == "" || comboBox3.Text == "" || comboBox4.Text == "" || comboBox5.Text == "" || textBox2.Text == "")
+                    {
+                        MessageBox.Show("Sva polja moraju biti popunjena - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Osvezi();
+                        return;
+                    }
+
+                    string[] Zaposleni = comboBox1.Text.Split(); //Trazenje id-a za zaposlenog
+                    podaci = new DataTable();
+                    podaci = Konekcija.Unos("SELECT id FROM Zaposleni WHERE ime = '" + Zaposleni[0] + "' AND prezime = '" + Zaposleni[1] + "' AND id = " + textBox5.Text);
+                    int id_zaposlenog = (int)podaci.Rows[0][0];
+
+                    podaci = new DataTable(); //Trazenje id-a za primerak
+                    podaci = Konekcija.Unos("SELECT id FROM Primerak WHERE polica = " + comboBox3.Text + " AND broj = " + comboBox4.Text);
+                    int id_primerka = (int)podaci.Rows[0][0];
+
+                    string[] Ucenik = comboBox5.Text.Split(); //Trazenje id-a za ucenika
+                    podaci = new DataTable();
+                    podaci = Konekcija.Unos("SELECT id FROM Ucenik WHERE ime = '" + Ucenik[0] + "' AND prezime = '" + Ucenik[1] + "' AND id = " + textBox4.Text);
+                    int id_ucenika = (int)podaci.Rows[0][0];
+
+                    /*podaci = new DataTable();
+                    podaci = Konekcija.Unos("SELECT * FROM Knjiga WHERE naziv = '" + textBox2.Text + "' AND id_autora = " + id_autora + " AND id_izdavaca = " + id_izdavaca + " AND id_vrste = " + id_vrste);
+                    if (podaci.Rows.Count >= 1) throw new Exception();*/
+
+                    menjanja = new SqlCommand();
+                    menjanja.CommandText = ("INSERT INTO Pozajmica (datum_uzimanja, id_zaposlenog, id_primerka, id_ucenika) VALUES ('" + textBox2.Text + "', " + id_zaposlenog + ", " + id_primerka + ", " + id_ucenika + ")");
+                    SqlConnection con = new SqlConnection(Konekcija.Veza());
+                    con.Open();
+                    menjanja.Connection = con;
+                    menjanja.ExecuteNonQuery();
+                    con.Close();
+
+                    Osvezi();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Source + " - " + ex.Message, "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SqlConnection con = new SqlConnection(Konekcija.Veza());
+                con.Close();
+                Osvezi();
+            }
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             try
@@ -182,7 +233,7 @@ namespace Skolska_biblioteka
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Podatak vec postoji u tabeli - " + ex.Source + " - " + ex.Message, "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Source + " - " + ex.Message, "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 SqlConnection con = new SqlConnection(Konekcija.Veza());
                 con.Close();
                 Osvezi();

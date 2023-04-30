@@ -87,6 +87,18 @@ namespace Skolska_biblioteka
                     }
 
                     podaci = new DataTable();
+                    podaci = Konekcija.Unos("SELECT veb_sajt FROM Izdavac WHERE id <> " + textBox1.Text);
+                    for (int i = 0; i < podaci.Rows.Count; i++)
+                    {
+                        if (textBox4.Text == Convert.ToString(podaci.Rows[i]["veb_sajt"]))
+                        {
+                            MessageBox.Show("Dva izdavaca ne smeju imati isti veb sajt! - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Osvezi();
+                            return;
+                        }
+                    }
+
+                    podaci = new DataTable();
                     podaci = Konekcija.Unos("SELECT * FROM Izdavac WHERE naziv = '" + textBox2.Text + "' AND adresa = '" + textBox3.Text + "' AND veb_sajt = '" + textBox4.Text + "'");
                     if (podaci.Rows.Count >= 1) throw new Exception();
 
@@ -122,6 +134,14 @@ namespace Skolska_biblioteka
                     if (textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "")
                     {
                         MessageBox.Show("Sva polja moraju biti popunjena - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Osvezi();
+                        return;
+                    }
+
+                    podaci = Konekcija.Unos("SELECT * FROM Izdavac WHERE veb_sajt = '" + textBox4.Text + "'");
+                    if (podaci.Rows.Count >= 1)
+                    {
+                        MessageBox.Show("Dva izdavaca ne smeju imati isti veb sajt! - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Osvezi();
                         return;
                     }

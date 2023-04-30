@@ -92,6 +92,7 @@
             this.button3.TabIndex = 82;
             this.button3.Text = "Dodaj";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button2
             // 
@@ -124,7 +125,7 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(1871, 337);
+            this.dataGridView1.Size = new System.Drawing.Size(1603, 337);
             this.dataGridView1.TabIndex = 79;
             this.dataGridView1.CurrentCellChanged += new System.EventHandler(this.dataGridView1_CurrentCellChanged);
             // 
