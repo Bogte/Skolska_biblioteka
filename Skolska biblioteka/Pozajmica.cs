@@ -13,7 +13,7 @@ namespace Skolska_biblioteka
 {
     public partial class Pozajmica : Form
     {
-        DataTable podaci;
+        DataTable podaci, pom;
         SqlCommand menjanja;
 
         public Pozajmica()
@@ -74,7 +74,7 @@ namespace Skolska_biblioteka
         private void Osvezi()
         {
             podaci = new DataTable();
-            podaci = Konekcija.Unos("SELECT Pozajmica.id AS 'Id', convert(varchar(10), datum_uzimanja) AS 'Datum uzimanja', convert(varchar(10), datum_vracanja) AS 'Datum vracanja', Zaposleni.ime + ' ' + Zaposleni.prezime AS 'Zaposleni', Knjiga.naziv AS 'Knjiga', Primerak.polica AS 'Polica', Primerak.broj AS 'Broj', Ucenik.ime + ' ' + Ucenik.prezime AS 'Ucenik' FROM Pozajmica\r\nJOIN Zaposleni ON Zaposleni.id = Pozajmica.id_zaposlenog\r\nJOIN Primerak ON Primerak.id = Pozajmica.id_primerka\r\nJOIN Knjiga ON Knjiga.id = Primerak.id_knjige\r\nJOIN Ucenik ON Ucenik.id = Pozajmica.id_ucenika");
+            podaci = Konekcija.Unos("SELECT Pozajmica.id AS 'Id', convert(varchar(10), datum_uzimanja) AS 'Datum uzimanja', convert(varchar(10), datum_vracanja) AS 'Datum vracanja', Zaposleni.id AS 'Oznaka zaposlenog', Zaposleni.ime + ' ' + Zaposleni.prezime AS 'Zaposleni', Knjiga.naziv AS 'Knjiga', Primerak.polica AS 'Polica', Primerak.broj AS 'Broj', Ucenik.id AS 'Broj clanske katre', Ucenik.ime + ' ' + Ucenik.prezime AS 'Ucenik' FROM Pozajmica\r\nJOIN Zaposleni ON Zaposleni.id = Pozajmica.id_zaposlenog\r\nJOIN Primerak ON Primerak.id = Pozajmica.id_primerka\r\nJOIN Knjiga ON Knjiga.id = Primerak.id_knjige\r\nJOIN Ucenik ON Ucenik.id = Pozajmica.id_ucenika");
             dataGridView1.DataSource = podaci;
         }
 
@@ -128,44 +128,48 @@ namespace Skolska_biblioteka
                 comboBox3.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["Polica"].Value);
                 comboBox4.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["Broj"].Value);
                 comboBox5.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["Ucenik"].Value);
+                textBox4.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["Broj clanske katre"].Value);
+                textBox5.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["Oznaka zaposlenog"].Value);
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            /*try
+            try
             {
                 if (MessageBox.Show("Da li ste sigurni da zelite da izmenite ove podatke?", "Skolska biblioteka", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    if (textBox2.Text == "" || comboBox1.Text == "" || comboBox2.Text == "" || comboBox3.Text == "" || comboBox4.Text == "" || comboBox5.Text == "")
+                    if (textBox2.Text == "" || comboBox1.Text == "" || comboBox2.Text == "" || comboBox3.Text == "" || comboBox4.Text == "" || comboBox5.Text == "" || textBox2.Text == "")
                     {
-                        MessageBox.Show("Sva polja osim Datuma vracanja moraju biti popunjena - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Sva polja moraju biti popunjena - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Osvezi();
                         return;
                     }
 
-                    string[] Autor = comboBox1.Text.Split(); //Trazenje id-a za autora
+                    string[] Zaposleni = comboBox1.Text.Split(); //Trazenje id-a za zaposlenog
                     podaci = new DataTable();
-                    podaci = Konekcija.Unos("SELECT id FROM Autor WHERE ime = '" + Autor[0] + "' AND prezime = '" + Autor[1] + "'");
-                    int id_autora = (int)podaci.Rows[0][0];
+                    podaci = Konekcija.Unos("SELECT id FROM Zaposleni WHERE ime = '" + Zaposleni[0] + "' AND prezime = '" + Zaposleni[1] + "' AND id = " + textBox5.Text);
+                    int id_zaposlenog = (int)podaci.Rows[0][0];
 
-                    podaci = new DataTable(); //Trazenje id-a za izdavaca
-                    podaci = Konekcija.Unos("SELECT id FROM Izdavac WHERE naziv = '" + comboBox2.Text + "'");
-                    int id_izdavaca = (int)podaci.Rows[0][0];
+                    podaci = new DataTable(); //Trazenje id-a za primerak
+                    podaci = Konekcija.Unos("SELECT id FROM Primerak WHERE polica = " + comboBox3.Text + " AND broj = " + comboBox4.Text);
+                    int id_primerka = (int)podaci.Rows[0][0];
 
-                    podaci = new DataTable(); //Trazenje id-a za knjizevnu vrstu
-                    podaci = Konekcija.Unos("SELECT id FROM Knjizevna_vrsta WHERE naziv = '" + comboBox3.Text + "'");
-                    int id_vrste = (int)podaci.Rows[0][0];
-
+                    string[] Ucenik = comboBox5.Text.Split(); //Trazenje id-a za ucenika
                     podaci = new DataTable();
-                    podaci = Konekcija.Unos("SELECT * FROM Knjiga WHERE naziv = '" + textBox2.Text + "' AND id_autora = " + id_autora + " AND id_izdavaca = " + id_izdavaca + " AND id_vrste = " + id_vrste);
-                    if (podaci.Rows.Count >= 1) throw new Exception();
+                    podaci = Konekcija.Unos("SELECT id FROM Ucenik WHERE ime = '" + Ucenik[0] + "' AND prezime = '" + Ucenik[1] + "' AND id = " + textBox4.Text);
+                    int id_ucenika = (int)podaci.Rows[0][0];
+
+                    /*podaci = new DataTable();
+                    podaci = Konekcija.Unos("SELECT * FROM Pozajmica WHERE naziv = '" + textBox2.Text + "' AND id_autora = " + id_autora + " AND id_izdavaca = " + id_izdavaca + " AND id_vrste = " + id_vrste);
+                    if (podaci.Rows.Count >= 1) throw new Exception();*/
 
                     menjanja = new SqlCommand();
-                    menjanja.CommandText = ("UPDATE Knjiga SET naziv = '" + textBox2.Text + "' WHERE id = " + textBox1.Text +
-                        " UPDATE Knjiga SET id_autora = '" + id_autora + "' WHERE id = " + textBox1.Text +
-                        " UPDATE Knjiga SET id_izdavaca = '" + id_izdavaca + "' WHERE id = " + textBox1.Text +
-                        " UPDATE Knjiga SET id_vrste = '" + id_vrste + "' WHERE id = " + textBox1.Text);
+                    menjanja.CommandText = ("UPDATE Pozajmica SET datum_uzimanja = '" + textBox2.Text + "' WHERE id = " + textBox1.Text +
+                        " UPDATE Pozajmica SET datum_vracanja = '" + textBox3.Text + "' WHERE id = " + textBox1.Text +
+                        " UPDATE Pozajmica SET id_zaposlenog = " + id_zaposlenog + " WHERE id = " + textBox1.Text +
+                        " UPDATE Pozajmica SET id_primerka = " + id_primerka + " WHERE id = " + textBox1.Text +
+                        " UPDATE Pozajmica SET id_ucenika = " + id_ucenika + " WHERE id = " + textBox1.Text);
 
                     SqlConnection con = new SqlConnection(Konekcija.Veza());
                     con.Open();
@@ -182,7 +186,7 @@ namespace Skolska_biblioteka
                 SqlConnection con = new SqlConnection(Konekcija.Veza());
                 con.Close();
                 Osvezi();
-            }*/
+            }
         }
     }
 }
