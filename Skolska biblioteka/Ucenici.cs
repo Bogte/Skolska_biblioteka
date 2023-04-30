@@ -82,6 +82,8 @@ namespace Skolska_biblioteka
             {
                 if (MessageBox.Show("Da li ste sigurni da zelite da izmenite ove podatke?", "Skolska biblioteka", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
+                    
+
                     if (textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "" || textBox5.Text == "" || textBox6.Text == "")
                     {
                         MessageBox.Show("Sva polja moraju biti popunjena - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -96,20 +98,27 @@ namespace Skolska_biblioteka
                         return;
                     }
 
-                    podaci = Konekcija.Unos("SELECT * FROM Ucenik WHERE JMBG = '" + textBox3.Text + "'");
-                    if (podaci.Rows.Count >= 1)
+                    podaci = new DataTable();
+                    podaci = Konekcija.Unos("SELECT JMBG FROM Ucenik WHERE id <> " + textBox1.Text);
+                    for (int i = 0; i < podaci.Rows.Count; i++)
                     {
-                        MessageBox.Show("Dva ucenika ne smeju imati isti JMBG! - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Osvezi();
-                        return;
+                        if (textBox3.Text == Convert.ToString(podaci.Rows[i]["JMBG"]))
+                        {
+                            MessageBox.Show("Dva ucenika ne smeju imati isti JMBG! - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Osvezi();
+                            return;
+                        }
                     }
 
-                    podaci = Konekcija.Unos("SELECT * FROM Ucenik WHERE email = '" + textBox4.Text + "'");
-                    if (podaci.Rows.Count >= 1)
+                    podaci = Konekcija.Unos("SELECT email FROM Ucenik WHERE id <> " + textBox1.Text);
+                    for (int i = 0; i < podaci.Rows.Count; i++)
                     {
-                        MessageBox.Show("Dva ucenika ne smeju imati isti Email! - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Osvezi();
-                        return;
+                        if (textBox4.Text == Convert.ToString(podaci.Rows[i]["email"]))
+                        {
+                            MessageBox.Show("Dva ucenika ne smeju imati isti Email! - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Osvezi();
+                            return;
+                        }
                     }
 
                     string[] ucenik = textBox2.Text.Split();

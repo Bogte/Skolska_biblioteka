@@ -96,20 +96,27 @@ namespace Skolska_biblioteka
                         return;
                     }
 
-                    podaci = Konekcija.Unos("SELECT * FROM Zaposleni WHERE JMBG = '" + textBox4.Text + "'");
-                    if (podaci.Rows.Count >= 1)
+                    podaci = new DataTable();
+                    podaci = Konekcija.Unos("SELECT JMBG FROM Zaposleni WHERE id <> " + textBox1.Text);
+                    for (int i = 0; i < podaci.Rows.Count; i++)
                     {
-                        MessageBox.Show("Dva zaposlena ne smeju imati isti JMBG! - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Osvezi();
-                        return;
+                        if (textBox4.Text == Convert.ToString(podaci.Rows[i]["JMBG"]))
+                        {
+                            MessageBox.Show("Dva zaposlena ne smeju imati isti JMBG! - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Osvezi();
+                            return;
+                        }
                     }
 
-                    podaci = Konekcija.Unos("SELECT * FROM Zaposleni WHERE email = '" + textBox5.Text + "'");
-                    if (podaci.Rows.Count >= 1)
+                    podaci = Konekcija.Unos("SELECT email FROM Zaposleni WHERE id <> " + textBox1.Text);
+                    for (int i = 0; i < podaci.Rows.Count; i++)
                     {
-                        MessageBox.Show("Dva zaposlena ne smeju imati isti Email! - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Osvezi();
-                        return;
+                        if (textBox5.Text == Convert.ToString(podaci.Rows[i]["email"]))
+                        {
+                            MessageBox.Show("Dva zaposlena ne smeju imati isti Email! - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Osvezi();
+                            return;
+                        }
                     }
 
                     string[] zaposleni = textBox2.Text.Split();

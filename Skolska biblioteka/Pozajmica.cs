@@ -133,7 +133,7 @@ namespace Skolska_biblioteka
 
         private void button2_Click(object sender, EventArgs e)
         {
-            try
+            /*try
             {
                 if (MessageBox.Show("Da li ste sigurni da zelite da izmenite ove podatke?", "Skolska biblioteka", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
@@ -182,7 +182,7 @@ namespace Skolska_biblioteka
                 SqlConnection con = new SqlConnection(Konekcija.Veza());
                 con.Close();
                 Osvezi();
-            }
+            }*/
         }
     }
 }
