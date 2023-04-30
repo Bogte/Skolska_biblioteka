@@ -90,6 +90,12 @@
     <Compile Include="Pocetna_stranica.Designer.cs">
       <DependentUpon>Pocetna_stranica.cs</DependentUpon>
     </Compile>
+    <Compile Include="Pozajmica.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pozajmica.Designer.cs">
+      <DependentUpon>Pozajmica.cs</DependentUpon>
+    </Compile>
     <Compile Include="Primerci.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,6 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pocetna_stranica.resx">
       <DependentUpon>Pocetna_stranica.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pozajmica.resx">
+      <DependentUpon>Pozajmica.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Primerci.resx">
       <DependentUpon>Primerci.cs</DependentUpon>

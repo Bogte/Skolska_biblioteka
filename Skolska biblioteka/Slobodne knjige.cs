@@ -64,7 +64,7 @@ namespace Skolska_biblioteka
             dataGridView1.DataSource = podaci;
             button2.Enabled = true;
         }
-
+ 
         private void button2_Click(object sender, EventArgs e)
         {
             Osvezi();

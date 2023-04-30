@@ -77,5 +77,11 @@ namespace Skolska_biblioteka
             Slobodne_knjige f1 = new Slobodne_knjige();
             f1.ShowDialog();
         }
+
+        private void pozajmiceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Pozajmica f1 = new Pozajmica();
+            f1.ShowDialog();
+        }
     }
 }

@@ -53,7 +53,14 @@ namespace Skolska_biblioteka
                 textBox2.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["polica"].Value);
                 textBox3.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["broj"].Value);
                 comboBox1.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["Knjiga"].Value);
-                comboBox2.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["Slobodna"].Value);
+                if (Convert.ToString(dataGridView1.Rows[indeks].Cells["Slobodna"].Value) == "True")
+                {
+                    comboBox2.Text = "Slobdna";
+                }
+                else
+                {
+                    comboBox2.Text = "Nije slobodna";
+                }
             }
         }
 
@@ -61,7 +68,7 @@ namespace Skolska_biblioteka
         {
             try
             {
-                if (MessageBox.Show("Da li ste sigurni da zelite da obrisete ove podatake?", "Pedikir manikir", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Da li ste sigurni da zelite da obrisete ove podatake?", "Skolska biblioteka", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     menjanja = new SqlCommand();
                     menjanja.CommandText = ("DELETE FROM Primerak WHERE id = " + textBox1.Text);
@@ -88,7 +95,7 @@ namespace Skolska_biblioteka
         {
             try
             {
-                if (MessageBox.Show("Da li ste sigurni da zelite da izmenite ove podatke?", "Pedikir manikir", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Da li ste sigurni da zelite da izmenite ove podatke?", "Skolska biblioteka", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     if (textBox2.Text == "" || comboBox1.Text == "" || comboBox2.Text == "" || textBox3.Text == "" )
                     {
@@ -102,7 +109,7 @@ namespace Skolska_biblioteka
                     int id_knjige = (int)podaci.Rows[0][0];
 
                     int slobodna;
-                    if(comboBox2.Text == "True")
+                    if(comboBox2.Text == "Slobodna")
                     {
                         slobodna = 1;
                     }
@@ -143,7 +150,7 @@ namespace Skolska_biblioteka
         {
             try
             {
-                if (MessageBox.Show("Da li ste sigurni da zelite da dodate ove podatke?", "Pedikir manikir", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Da li ste sigurni da zelite da dodate ove podatke?", "Skolska biblioteka", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     if (textBox2.Text == "" || comboBox1.Text == "" || comboBox2.Text == "" || textBox3.Text == "")
                     {
@@ -157,7 +164,7 @@ namespace Skolska_biblioteka
                     int id_knjige = (int)podaci.Rows[0][0];
 
                     int slobodna;
-                    if (comboBox2.Text == "True")
+                    if (comboBox2.Text == "Slobodna")
                     {
                         slobodna = 1;
                     }

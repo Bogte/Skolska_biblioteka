@@ -54,7 +54,8 @@
             this.slobodneKnjigeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(556, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(741, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -131,6 +132,7 @@
             this.pozajmiceToolStripMenuItem.Name = "pozajmiceToolStripMenuItem";
             this.pozajmiceToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
             this.pozajmiceToolStripMenuItem.Text = "Pozajmice";
+            this.pozajmiceToolStripMenuItem.Click += new System.EventHandler(this.pozajmiceToolStripMenuItem_Click);
             // 
             // slobodneKnjigeToolStripMenuItem
             // 
@@ -141,11 +143,12 @@
             // 
             // Pocetna_stranica
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(556, 192);
+            this.ClientSize = new System.Drawing.Size(741, 236);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Pocetna_stranica";
             this.Text = "Pocetna_stranica";
             this.Load += new System.EventHandler(this.Pocetna_stranica_Load);
