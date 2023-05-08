@@ -31,7 +31,7 @@ namespace Skolska_biblioteka
         private void Osvezi()
         {
             podaci = new DataTable();
-            podaci = Konekcija.Unos("SELECT id, ime + ' ' + prezime AS 'Autor', godina_rodjenja AS 'Godina rodjenja', drzava_porekla AS 'Drzava porekla' FROM Autor");
+            podaci = Konekcija.Unos("SELECT id, ime, prezime, godina_rodjenja AS 'Godina rodjenja', drzava_porekla AS 'Drzava porekla' FROM Autor");
             dataGridView1.DataSource = podaci;
         }
 
@@ -42,9 +42,10 @@ namespace Skolska_biblioteka
                 int indeks = dataGridView1.CurrentRow.Index;
 
                 textBox1.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["id"].Value);
-                textBox2.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["Autor"].Value);
+                textBox2.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["ime"].Value);
                 textBox3.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["Godina rodjenja"].Value);
                 textBox4.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["Drzava porekla"].Value);
+                textBox5.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["prezime"].Value);
             }
         }
 
@@ -81,7 +82,7 @@ namespace Skolska_biblioteka
             {
                 if (MessageBox.Show("Da li ste sigurni da zelite da izmenite ove podatke?", "Skolska biblioteka", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    if (textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "")
+                    if (textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "" || textBox5.Text == "")
                     {
                         MessageBox.Show("Sva polja moraju biti popunjena - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Osvezi();
@@ -96,13 +97,12 @@ namespace Skolska_biblioteka
                     }
 
                     podaci = new DataTable();
-                    podaci = Konekcija.Unos("SELECT * FROM Autor WHERE ime + ' ' + prezime = '" + textBox2.Text + "' AND godina_rodjenja = '" + textBox3.Text + "' AND drzava_porekla = '" + textBox4.Text + "'");
+                    podaci = Konekcija.Unos("SELECT * FROM Autor WHERE ime = '" + textBox2.Text + "' AND prezime = '" + textBox5.Text + "' AND godina_rodjenja = '" + textBox3.Text + "' AND drzava_porekla = '" + textBox4.Text + "'");
                     if (podaci.Rows.Count >= 1) throw new Exception();
 
-                    string[] autor = textBox2.Text.Split();
                     menjanja = new SqlCommand();
-                    menjanja.CommandText = ("UPDATE Autor SET ime = '" + autor[0] + "' WHERE id = " + textBox1.Text +
-                        " UPDATE Autor SET prezime = '" + autor[1] + "' WHERE id = " + textBox1.Text +
+                    menjanja.CommandText = ("UPDATE Autor SET ime = '" + textBox2.Text + "' WHERE id = " + textBox1.Text +
+                        " UPDATE Autor SET prezime = '" + textBox5.Text + "' WHERE id = " + textBox1.Text +
                         " UPDATE Autor SET godina_rodjenja = '" + textBox3.Text + "' WHERE id = " + textBox1.Text +
                         " UPDATE Autor SET drzava_porekla = '" + textBox4.Text + "' WHERE id = " + textBox1.Text);
 
@@ -130,7 +130,7 @@ namespace Skolska_biblioteka
             {
                 if (MessageBox.Show("Da li ste sigurni da zelite da dodate ove podatke?", "Skolska biblioteka", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    if (textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "")
+                    if (textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "" || textBox5.Text == "")
                     {
                         MessageBox.Show("Sva polja moraju biti popunjena - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Osvezi();
@@ -145,12 +145,11 @@ namespace Skolska_biblioteka
                     }
 
                     podaci = new DataTable();
-                    podaci = Konekcija.Unos("SELECT * FROM Autor WHERE ime + ' ' + prezime = '" + textBox2.Text + "' AND godina_rodjenja = '" + textBox3.Text + "' AND drzava_porekla = '" + textBox4.Text + "'");
+                    podaci = Konekcija.Unos("SELECT * FROM Autor WHERE ime = '" + textBox2.Text + "' AND prezime = '" + textBox5.Text + "' AND godina_rodjenja = '" + textBox3.Text + "' AND drzava_porekla = '" + textBox4.Text + "'");
                     if (podaci.Rows.Count >= 1) throw new Exception();
 
-                    string[] autor = textBox2.Text.Split();
                     menjanja = new SqlCommand();
-                    menjanja.CommandText = ("INSERT INTO Autor VALUES ('" + autor[0] + "', '" + autor[1] + "', '" + textBox3.Text + "', '" + textBox4.Text + "')");
+                    menjanja.CommandText = ("INSERT INTO Autor VALUES ('" + textBox2.Text + "', '" + textBox5.Text + "', '" + textBox3.Text + "', '" + textBox4.Text + "')");
                     SqlConnection con = new SqlConnection(Konekcija.Veza());
                     con.Open();
                     menjanja.Connection = con;
@@ -167,6 +166,26 @@ namespace Skolska_biblioteka
                 con.Close();
                 Osvezi();
             }
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

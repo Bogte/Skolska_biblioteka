@@ -184,6 +184,27 @@ namespace Skolska_biblioteka
             }
         }
 
+        private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string[] pom = comboBox5.Text.Split();
+            podaci = new DataTable();
+            podaci = Konekcija.Unos("SELECT id FROM Ucenik WHERE Ime = '" + pom[0] + "' AND Prezime = '" + pom[1] + "'");
+            textBox4.Text = Convert.ToString(podaci.Rows[0][0]);
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            podaci = new DataTable(); //Trazenje id-a za knjigu
+            podaci = Konekcija.Unos("SELECT id FROM Knjiga WHERE naziv = '" + comboBox2.Text + "'");
+            int id_knjige = (int)podaci.Rows[0][0];
+
+            string pom = comboBox2.Text;
+            podaci = new DataTable();
+            podaci = Konekcija.Unos("SELECT polica, broj FROM Primerak WHERE id_knjige = " + id_knjige + "AND slobodna = 1");
+            comboBox3.Text = Convert.ToString(podaci.Rows[0][0]);
+            comboBox4.Text = Convert.ToString(podaci.Rows[0][1]);
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             try

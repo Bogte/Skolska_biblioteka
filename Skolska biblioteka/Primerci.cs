@@ -55,7 +55,7 @@ namespace Skolska_biblioteka
                 comboBox1.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["Knjiga"].Value);
                 if (Convert.ToString(dataGridView1.Rows[indeks].Cells["Slobodna"].Value) == "True")
                 {
-                    comboBox2.Text = "Slobdna";
+                    comboBox2.Text = "Slobodna";
                 }
                 else
                 {
@@ -117,7 +117,18 @@ namespace Skolska_biblioteka
                     {
                         slobodna = 0;
                     }
-                    
+
+                    podaci = Konekcija.Unos("SELECT polica, broj FROM Primerak WHERE id <> " + textBox1.Text);
+                    for (int i = 0; i < podaci.Rows.Count; i++)
+                    {
+                        if (textBox2.Text == Convert.ToString(podaci.Rows[i]["polica"]) && textBox3.Text == Convert.ToString(podaci.Rows[i]["broj"]))
+                        {
+                            MessageBox.Show("Polica je zauzeta! - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Osvezi();
+                            return;
+                        }
+                    }
+
                     podaci = new DataTable();
                     podaci = Konekcija.Unos("SELECT * FROM Primerak WHERE id_knjige = " + id_knjige + " AND polica = " + textBox2.Text + " AND broj = " + textBox3.Text + " AND slobodna = " + slobodna);
                     if (podaci.Rows.Count >= 1) throw new Exception();

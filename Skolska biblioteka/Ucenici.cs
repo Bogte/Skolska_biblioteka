@@ -30,7 +30,7 @@ namespace Skolska_biblioteka
         private void Osvezi()
         {
             podaci = new DataTable();
-            podaci = Konekcija.Unos("SELECT id, ime + ' ' + prezime AS 'Ucenik', JMBG, email, godina_pocetka AS 'Godina upisa', odeljenje FROM Ucenik");
+            podaci = Konekcija.Unos("SELECT id, ime, prezime , JMBG, email, godina_pocetka AS 'Godina upisa', odeljenje FROM Ucenik");
             dataGridView1.DataSource = podaci;
         }
 
@@ -41,11 +41,12 @@ namespace Skolska_biblioteka
                 int indeks = dataGridView1.CurrentRow.Index;
 
                 textBox1.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["id"].Value);
-                textBox2.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["Ucenik"].Value);
+                textBox2.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["ime"].Value);
                 textBox3.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["JMBG"].Value);
                 textBox4.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["email"].Value);
                 textBox5.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["Godina upisa"].Value);
                 textBox6.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["odeljenje"].Value);
+                textBox7.Text = Convert.ToString(dataGridView1.Rows[indeks].Cells["prezime"].Value);
             }
         }
 
@@ -84,7 +85,7 @@ namespace Skolska_biblioteka
                 {
                     
 
-                    if (textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "" || textBox5.Text == "" || textBox6.Text == "")
+                    if (textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "" || textBox5.Text == "" || textBox6.Text == "" || textBox7.Text == "")
                     {
                         MessageBox.Show("Sva polja moraju biti popunjena - Skolska biblioteka", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Osvezi();
@@ -121,14 +122,13 @@ namespace Skolska_biblioteka
                         }
                     }
 
-                    string[] ucenik = textBox2.Text.Split();
                     podaci = new DataTable();
-                    podaci = Konekcija.Unos("SELECT * FROM Ucenik WHERE ime = '" + ucenik[0] + "' AND prezime = '" + ucenik[1] + "' AND JMBG = '" + textBox3.Text + "' AND email = '" + textBox4.Text + "' AND godina_pocetka = '" + textBox5.Text + "' AND odeljenje = '" + textBox6.Text + "'");
+                    podaci = Konekcija.Unos("SELECT * FROM Ucenik WHERE ime = '" + textBox2.Text + "' AND prezime = '" + textBox7.Text + "' AND JMBG = '" + textBox3.Text + "' AND email = '" + textBox4.Text + "' AND godina_pocetka = '" + textBox5.Text + "' AND odeljenje = '" + textBox6.Text + "'");
                     if (podaci.Rows.Count >= 1) throw new Exception();
 
                     menjanja = new SqlCommand();
-                    menjanja.CommandText = ("UPDATE Ucenik SET ime = '" + ucenik[0] + "' WHERE id = " + textBox1.Text +
-                        " UPDATE Ucenik SET prezime = '" + ucenik[1] + "' WHERE id = " + textBox1.Text +
+                    menjanja.CommandText = ("UPDATE Ucenik SET ime = '" + textBox2.Text + "' WHERE id = " + textBox1.Text +
+                        " UPDATE Ucenik SET prezime = '" + textBox7.Text + "' WHERE id = " + textBox1.Text +
                         " UPDATE Ucenik SET JMBG = '" + textBox3.Text + "' WHERE id = " + textBox1.Text +
                         " UPDATE Ucenik SET email = '" + textBox4.Text + "' WHERE id = " + textBox1.Text +
                         " UPDATE Ucenik SET godina_pocetka = '" + textBox5.Text + "' WHERE id = " + textBox1.Text +
@@ -187,15 +187,14 @@ namespace Skolska_biblioteka
                         Osvezi();
                         return;
                     }
-
-                    string[] ucenik = textBox2.Text.Split();
+;
                     podaci = new DataTable();
-                    podaci = Konekcija.Unos("SELECT * FROM Ucenik WHERE ime = '" + ucenik[0] + "' AND prezime = '" + ucenik[1] + "' AND JMBG = '" + textBox3.Text + "' AND email = '" + textBox4.Text + "' AND godina_pocetka = '" + textBox5.Text + "' AND odeljenje = '" + textBox6.Text + "'");
+                    podaci = Konekcija.Unos("SELECT * FROM Ucenik WHERE ime = '" + textBox2.Text + "' AND prezime = '" + textBox7.Text + "' AND JMBG = '" + textBox3.Text + "' AND email = '" + textBox4.Text + "' AND godina_pocetka = '" + textBox5.Text + "' AND odeljenje = '" + textBox6.Text + "'");
                     if (podaci.Rows.Count >= 1) throw new Exception();
 
 
                     menjanja = new SqlCommand();
-                    menjanja.CommandText = ("INSERT INTO Ucenik VALUES ('" + ucenik[0] + "', '" + ucenik[1] + "', '" + textBox3.Text + "', '" + textBox4.Text + "', '" + textBox5.Text + "', '" + textBox6.Text + "')");
+                    menjanja.CommandText = ("INSERT INTO Ucenik VALUES ('" + textBox2.Text + "', '" + textBox7.Text + "', '" + textBox3.Text + "', '" + textBox4.Text + "', '" + textBox5.Text + "', '" + textBox6.Text + "')");
                     SqlConnection con = new SqlConnection(Konekcija.Veza());
                     con.Open();
                     menjanja.Connection = con;
