@@ -115,9 +115,9 @@ namespace Skolska_biblioteka
                         return;
                     }
 
-                    string[] Autor = comboBox1.Text.Split(); //Trazenje id-a za autora
+                    //Trazenje id-a za autora
                     podaci = new DataTable();
-                    podaci = Konekcija.Unos("SELECT id FROM Autor WHERE ime = '" + Autor[0] + "' AND prezime = '" + Autor[1] + "'");
+                    podaci = Konekcija.Unos("SELECT id FROM Autor WHERE ime + ' ' + prezime = '" + comboBox1.Text + "'");
                     int id_autora = (int)podaci.Rows[0][0];
 
                     podaci = new DataTable(); //Trazenje id-a za izdavaca
@@ -169,9 +169,9 @@ namespace Skolska_biblioteka
                         return;
                     }
 
-                    string[] Autor = comboBox1.Text.Split(); //Trazenje id-a za autora
+                    //Trazenje id-a za autora
                     podaci = new DataTable();
-                    podaci = Konekcija.Unos("SELECT id FROM Autor WHERE ime = '" + Autor[0] + "' AND prezime = '" + Autor[1] + "'");
+                    podaci = Konekcija.Unos("SELECT id FROM Autor WHERE ime + ' ' + prezime = '" + comboBox1.Text + "'");
                     int id_autora = (int)podaci.Rows[0][0];
 
                     podaci = new DataTable(); //Trazenje id-a za izdavaca

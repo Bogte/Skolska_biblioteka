@@ -205,6 +205,13 @@ namespace Skolska_biblioteka
             comboBox4.Text = Convert.ToString(podaci.Rows[0][1]);
         }
 
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            podaci = new DataTable();
+            podaci = Konekcija.Unos("SELECT id FROM Zaposleni WHERE ime + ' ' + prezime = '" + comboBox1.Text + "'");
+            textBox5.Text = Convert.ToString(podaci.Rows[0][0]);
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             try
