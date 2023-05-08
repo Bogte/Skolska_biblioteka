@@ -225,18 +225,18 @@ namespace Skolska_biblioteka
                         return;
                     }
 
-                    string[] Zaposleni = comboBox1.Text.Split(); //Trazenje id-a za zaposlenog
+                    //Trazenje id-a za zaposlenog
                     podaci = new DataTable();
-                    podaci = Konekcija.Unos("SELECT id FROM Zaposleni WHERE ime = '" + Zaposleni[0] + "' AND prezime = '" + Zaposleni[1] + "' AND id = " + textBox5.Text);
-                    int id_zaposlenog = (int)podaci.Rows[0][0];
+                    podaci = Konekcija.Unos("SELECT id FROM Zaposleni WHERE ime + ' ' + prezime = '" + comboBox1.Text + "'");
+                    int id_zaposlenog = (int)(podaci.Rows[0][0]);
 
                     podaci = new DataTable(); //Trazenje id-a za primerak
                     podaci = Konekcija.Unos("SELECT id FROM Primerak WHERE polica = " + comboBox3.Text + " AND broj = " + comboBox4.Text);
                     int id_primerka = (int)podaci.Rows[0][0];
 
-                    string[] Ucenik = comboBox5.Text.Split(); //Trazenje id-a za ucenika
+                    //Trazenje id-a za ucenika
                     podaci = new DataTable();
-                    podaci = Konekcija.Unos("SELECT id FROM Ucenik WHERE ime = '" + Ucenik[0] + "' AND prezime = '" + Ucenik[1] + "' AND id = " + textBox4.Text);
+                    podaci = Konekcija.Unos("SELECT id FROM Ucenik WHERE ime + ' ' + prezime = '" + comboBox5.Text + "'");
                     int id_ucenika = (int)podaci.Rows[0][0];
 
                     /*podaci = new DataTable();
