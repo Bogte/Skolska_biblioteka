@@ -160,10 +160,6 @@ namespace Skolska_biblioteka
                     podaci = Konekcija.Unos("SELECT id FROM Ucenik WHERE ime = '" + Ucenik[0] + "' AND prezime = '" + Ucenik[1] + "' AND id = " + textBox4.Text);
                     int id_ucenika = (int)podaci.Rows[0][0];
 
-                    /*podaci = new DataTable();
-                    podaci = Konekcija.Unos("SELECT * FROM Knjiga WHERE naziv = '" + textBox2.Text + "' AND id_autora = " + id_autora + " AND id_izdavaca = " + id_izdavaca + " AND id_vrste = " + id_vrste);
-                    if (podaci.Rows.Count >= 1) throw new Exception();*/
-
                     menjanja = new SqlCommand();
                     menjanja.CommandText = ("INSERT INTO Pozajmica (datum_uzimanja, id_zaposlenog, id_primerka, id_ucenika) VALUES ('" + textBox2.Text + "', " + id_zaposlenog + ", " + id_primerka + ", " + id_ucenika + ")");
                     SqlConnection con = new SqlConnection(Konekcija.Veza());
@@ -201,8 +197,16 @@ namespace Skolska_biblioteka
             string pom = comboBox2.Text;
             podaci = new DataTable();
             podaci = Konekcija.Unos("SELECT polica, broj FROM Primerak WHERE id_knjige = " + id_knjige + "AND slobodna = 1");
-            comboBox3.Text = Convert.ToString(podaci.Rows[0][0]);
-            comboBox4.Text = Convert.ToString(podaci.Rows[0][1]);
+            if (podaci.Rows.Count == 0)
+            {
+                comboBox3.Text = "Nema na stanju!";
+                comboBox4.Text = "Nema na stanju!";
+            }
+            else
+            {
+                comboBox3.Text = Convert.ToString(podaci.Rows[0][0]);
+                comboBox4.Text = Convert.ToString(podaci.Rows[0][1]);
+            }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
